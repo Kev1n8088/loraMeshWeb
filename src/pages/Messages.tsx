@@ -14,12 +14,12 @@ import { useState } from "react";
 export const MessagesPage = (): JSX.Element => {
   const { channels, nodes, hardware, messages, traceroutes, connection } =
     useDevice();
-  const [chatType, setChatType] =
+  const [chatType, setChatType] = //keeps track of message type: DM or broadcasted
     useState<Types.PacketDestination>("broadcast");
-  const [activeChat, setActiveChat] = useState<number>(
+  const [activeChat, setActiveChat] = useState<number>( //keeps tract of current channel
     Types.ChannelNumber.Primary,
   );
-  const filteredNodes = Array.from(nodes.values()).filter(
+  const filteredNodes = Array.from(nodes.values()).filter( 
     (n) => n.num !== hardware.myNodeNum,
   );
   const allChannels = Array.from(channels.values());

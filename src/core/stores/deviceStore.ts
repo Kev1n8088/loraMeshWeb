@@ -53,6 +53,8 @@ export interface Device {
   // currentMetrics: Protobuf.DeviceMetrics;
   pendingSettingsChanges: boolean;
   messageDraft: string;
+  fileDraft: string;
+  messageArray: string[];
   dialog: {
     import: boolean;
     QR: boolean;
@@ -95,6 +97,8 @@ export interface Device {
   setDialogOpen: (dialog: DialogVariant, open: boolean) => void;
   processPacket: (data: ProcessPacketParams) => void;
   setMessageDraft: (message: string) => void;
+  setFileDraft: (message: string) => void;
+  setMessageArray: (message: string[]) => void;
 }
 
 export interface DeviceState {
@@ -145,6 +149,8 @@ export const useDeviceStore = create<DeviceState>((set, get) => ({
           },
           pendingSettingsChanges: false,
           messageDraft: "",
+          fileDraft: "",
+          messageArray: [],
 
           setStatus: (status: Types.DeviceStatusEnum) => {
             set(
@@ -625,6 +631,26 @@ export const useDeviceStore = create<DeviceState>((set, get) => ({
                 const device = draft.devices.get(id);
                 if (device) {
                   device.messageDraft = message;
+                }
+              }),
+            );
+          },
+          setMessageArray: (message: string[]) => {
+            set(
+              produce<DeviceState>((draft) => {
+                const device = draft.devices.get(id);
+                if (device) {
+                  device.messageArray = message;
+                }
+              }),
+            );
+          },
+          setFileDraft: (file: string) => {
+            set(
+              produce<DeviceState>((draft) => {
+                const device = draft.devices.get(id);
+                if (device) {
+                  device.fileDraft = file;
                 }
               }),
             );

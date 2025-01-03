@@ -5,6 +5,9 @@ import {
 } from "@app/core/stores/deviceStore.js";
 import { Message } from "@components/PageComponents/Messages/Message.js";
 import { MessageInput } from "@components/PageComponents/Messages/MessageInput.js";
+import { ImageInput } from "@components/PageComponents/Messages/ImageInput.js";
+import { SpeechInput } from "@components/PageComponents/Messages/SpeechInput.js";
+import { PhotoInput } from "@components/PageComponents/Messages/PhotoInput.js";
 import { TraceRoute } from "@components/PageComponents/Messages/TraceRoute.js";
 import type { Protobuf, Types } from "@meshtastic/js";
 import { InboxIcon } from "lucide-react";
@@ -14,6 +17,28 @@ export interface ChannelChatProps {
   channel: Types.ChannelNumber;
   to: Types.Destination;
   traceroutes?: Types.PacketMetadata<Protobuf.Mesh.RouteDiscovery>[];
+}
+
+function getPastMessages(mess: MessageWithState[], index: number) {
+  if (mess[index].data.includes("$*#%$") === false) {
+    return "not image";
+  }
+  const imgLength = Number.parseInt(mess[index].data.split("$")[3]);
+  const arr = new Array<string>(imgLength);
+  const t = mess[index].data.split("$")[2];
+  if (index - imgLength < -1) {
+    return "incomplete";
+  }
+  for (let i = index; i > index - imgLength; i--) {
+    // biome-ignore lint/style/useTemplate: <explanation>
+    if (mess[i].data.includes("$*#%$" + t)) {
+      arr[Number.parseInt(mess[i].data.split("$")[0])] =
+        mess[i].data.split("$")[4];
+    } else {
+      return "incomplete";
+    }
+  }
+  return arr.join("\n");
 }
 
 export const ChannelChat = ({
@@ -38,6 +63,8 @@ export const ChannelChat = ({
                     ? false
                     : messages[index - 1].from === message.from
                 }
+                prevMesImgs={getPastMessages(messages, index)}
+                image={message.data.includes("$*#%$")}
                 sender={nodes.get(message.from)}
               />
             ))
@@ -70,6 +97,12 @@ export const ChannelChat = ({
       </div>
       <div className="p-3">
         <MessageInput to={to} channel={channel} />
+      </div>
+      <div className="p-4">
+        <ImageInput to={to} channel={channel} />
+      </div>
+      <div className="p-4">
+        <PhotoInput to={to} channel={channel} />
       </div>
     </div>
   );

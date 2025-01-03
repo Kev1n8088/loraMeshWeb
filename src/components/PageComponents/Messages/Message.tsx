@@ -9,15 +9,20 @@ import {
 
 export interface MessageProps {
   lastMsgSameUser: boolean;
+  prevMesImgs: string;
   message: MessageWithState;
   sender?: Protobuf.Mesh.NodeInfo;
+  image: boolean;
 }
 
 export const Message = ({
   lastMsgSameUser,
+  prevMesImgs,
   message,
   sender,
+  image,
 }: MessageProps): JSX.Element => {
+  console.log(prevMesImgs);
   return lastMsgSameUser ? (
     <div className="ml-5 flex">
       {message.state === "ack" ? (
@@ -31,8 +36,15 @@ export const Message = ({
         className={`ml-4 border-l-2 border-l-backgroundPrimary pl-2 ${
           message.state === "ack" ? "text-textPrimary" : "text-textSecondary"
         }`}
+        style={{ display: "inline-block" }}
       >
-        {message.data}
+        {prevMesImgs === "not image" ? (
+          message.data
+        ) : prevMesImgs === "incomplete" ? (
+          "Image Incomplete"
+        ) : (
+          <img src={prevMesImgs} alt="" />
+        )}
       </span>
     </div>
   ) : (
@@ -66,8 +78,15 @@ export const Message = ({
           className={`ml-4 border-l-2 border-l-backgroundPrimary pl-2 ${
             message.state === "ack" ? "text-textPrimary" : "text-textSecondary"
           }`}
+          style={{ display: "inline-block" }}
         >
-          {message.data}
+          {prevMesImgs === "not image" ? (
+            message.data
+          ) : prevMesImgs === "incomplete" ? (
+            "Image Incomplete"
+          ) : (
+            <img src={prevMesImgs} alt="" />
+          )}
         </span>
       </div>
     </div>
