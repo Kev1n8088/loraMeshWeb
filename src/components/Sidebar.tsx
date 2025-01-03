@@ -1,8 +1,8 @@
-import { SidebarSection } from "@components/UI/Sidebar/SidebarSection.js";
-import { SidebarButton } from "@components/UI/Sidebar/sidebarButton.js";
-import { Subtle } from "@components/UI/Typography/Subtle.js";
-import { useDevice } from "@core/stores/deviceStore.js";
-import type { Page } from "@core/stores/deviceStore.js";
+import { SidebarSection } from "@components/UI/Sidebar/SidebarSection.tsx";
+import { SidebarButton } from "@components/UI/Sidebar/sidebarButton.tsx";
+import { Subtle } from "@components/UI/Typography/Subtle.tsx";
+import { useDevice } from "@core/stores/deviceStore.ts";
+import type { Page } from "@core/stores/deviceStore.ts";
 import {
   BatteryMediumIcon,
   CpuIcon,
@@ -80,12 +80,12 @@ export const Sidebar = ({ children }: SidebarProps): JSX.Element => {
       <div className="px-8 pb-6">
         <div className="flex items-center">
           <BatteryMediumIcon size={24} viewBox={"0 0 28 24"} />
-          <Subtle>{myNode?.deviceMetrics?.batteryLevel ?? "UNK"}%</Subtle>
+          <Subtle>{myNode?.deviceMetrics?.batteryLevel ? myNode?.deviceMetrics?.batteryLevel > 100 ? "Charging" : myNode?.deviceMetrics?.batteryLevel + "%"  : "UNK"}</Subtle>
         </div>
         <div className="flex items-center">
           <ZapIcon size={24} viewBox={"0 0 36 24"} />
           <Subtle>
-            {myNode?.deviceMetrics?.voltage.toPrecision(3) ?? "UNK"} volts
+            {myNode?.deviceMetrics?.voltage?.toPrecision(3) ?? "UNK"} volts
           </Subtle>
         </div>
         <div className="flex items-center">

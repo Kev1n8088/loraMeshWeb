@@ -1,4 +1,4 @@
-import { Subtle } from "@app/components/UI/Typography/Subtle.js";
+import { Subtle } from "@app/components/UI/Typography/Subtle.tsx";
 import {
   type MessageWithState,
   useDevice,
@@ -95,7 +95,7 @@ export const ChannelChat = ({
           )}
         </div>
       </div>
-      <div className="p-3">
+      <div className="pl-3 pr-3 pt-3 pb-1">
         <MessageInput to={to} channel={channel} />
       </div>
       <div className="p-4">

@@ -1,12 +1,13 @@
-import { Subtle } from "@app/components/UI/Typography/Subtle.js";
-import { cn } from "@app/core/utils/cn.js";
-import { PageLayout } from "@components/PageLayout.js";
-import { Sidebar } from "@components/Sidebar.js";
-import { SidebarSection } from "@components/UI/Sidebar/SidebarSection.js";
-import { SidebarButton } from "@components/UI/Sidebar/sidebarButton.js";
-import { useAppStore } from "@core/stores/appStore.js";
-import { useDevice } from "@core/stores/deviceStore.js";
+import { Subtle } from "@app/components/UI/Typography/Subtle.tsx";
+import { cn } from "@app/core/utils/cn.ts";
+import { PageLayout } from "@components/PageLayout.tsx";
+import { Sidebar } from "@components/Sidebar.tsx";
+import { SidebarSection } from "@components/UI/Sidebar/SidebarSection.tsx";
+import { SidebarButton } from "@components/UI/Sidebar/sidebarButton.tsx";
+import { useAppStore } from "@core/stores/appStore.ts";
+import { useDevice } from "@core/stores/deviceStore.ts";
 import { Hashicon } from "@emeraldpay/hashicon-react";
+import { numberToHexUnpadded } from "@noble/curves/abstract/utils";
 import { bbox, lineString } from "@turf/turf";
 import {
   BoxSelectIcon,
@@ -15,7 +16,7 @@ import {
   ZoomOutIcon,
 } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
-import { Marker, useMap } from "react-map-gl";
+import { AttributionControl, Marker, useMap } from "react-map-gl";
 import MapGl from "react-map-gl/maplibre";
 
 export const MapPage = (): JSX.Element => {
@@ -125,6 +126,7 @@ export const MapPage = (): JSX.Element => {
           // }}
 
           // @ts-ignore
+
           attributionControl={false}
           renderWorldCopies={false}
           maxPitch={0}
@@ -141,11 +143,14 @@ export const MapPage = (): JSX.Element => {
             longitude: 0,
           }}
         >
+          <AttributionControl
+            style={{ background: darkMode ? "#ffffff" : "", color: darkMode ? "black" : "" }}
+          />
           {waypoints.map((wp) => (
             <Marker
               key={wp.id}
-              longitude={wp.longitudeI / 1e7}
-              latitude={wp.latitudeI / 1e7}
+              longitude={(wp.longitudeI ?? 0) / 1e7}
+              latitude={(wp.latitudeI ?? 0) / 1e7}
               anchor="bottom"
             >
               <div>
@@ -163,8 +168,8 @@ export const MapPage = (): JSX.Element => {
               return (
                 <Marker
                   key={node.num}
-                  longitude={node.position.longitudeI / 1e7}
-                  latitude={node.position.latitudeI / 1e7}
+                  longitude={(node.position.longitudeI ?? 0) / 1e7}
+                  latitude={(node.position.latitudeI ?? 0) / 1e7}
                   style={{ filter: darkMode ? "invert(1)" : "" }}
                   anchor="bottom"
                   onClick={() => {
@@ -180,7 +185,8 @@ export const MapPage = (): JSX.Element => {
                   <div className="flex cursor-pointer gap-2 rounded-md border bg-backgroundPrimary p-1.5">
                     <Hashicon value={node.num.toString()} size={22} />
                     <Subtle className={cn(zoom < 12 && "hidden")}>
-                      {node.user?.longName}
+                      {node.user?.longName ||
+                        `!${numberToHexUnpadded(node.num)}`}
                     </Subtle>
                   </div>
                 </Marker>

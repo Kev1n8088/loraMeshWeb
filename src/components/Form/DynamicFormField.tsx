@@ -1,21 +1,26 @@
 import {
   GenericInput,
   type InputFieldProps,
-} from "@components/Form/FormInput.js";
+} from "@components/Form/FormInput.tsx";
+import {
+  PasswordGenerator,
+  type PasswordGeneratorProps,
+} from "@components/Form/FormPasswordGenerator.tsx";
 import {
   type SelectFieldProps,
   SelectInput,
-} from "@components/Form/FormSelect.js";
+} from "@components/Form/FormSelect.tsx";
 import {
   type ToggleFieldProps,
   ToggleInput,
-} from "@components/Form/FormToggle.js";
+} from "@components/Form/FormToggle.tsx";
 import type { Control, FieldValues } from "react-hook-form";
 
 export type FieldProps<T> =
   | InputFieldProps<T>
   | SelectFieldProps<T>
-  | ToggleFieldProps<T>;
+  | ToggleFieldProps<T>
+  | PasswordGeneratorProps<T>;
 
 export interface DynamicFormFieldProps<T extends FieldValues> {
   field: FieldProps<T>;
@@ -43,6 +48,14 @@ export function DynamicFormField<T extends FieldValues>({
     case "select":
       return (
         <SelectInput field={field} control={control} disabled={disabled} />
+      );
+    case "passwordGenerator":
+      return (
+        <PasswordGenerator
+          field={field}
+          control={control}
+          disabled={disabled}
+        />
       );
     case "multiSelect":
       return <div>tmp</div>;
