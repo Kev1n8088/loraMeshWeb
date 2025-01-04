@@ -3,5 +3,8 @@
   "editor.codeActionsOnSave": {
     "quickfix.biome": "explicit"
   },
-  "editor.formatOnSave": true
+  "editor.formatOnSave": true,
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  }
 }

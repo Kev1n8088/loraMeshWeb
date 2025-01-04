@@ -54,6 +54,8 @@
     "maplibre-gl": "4.1.2",
     "nodejs-whisper": "^0.1.18",
     "openai": "^4.55.4",
+    "opus-media-recorder": "^0.8.0",
+    "opus-recorder": "^8.0.5",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.52.0",

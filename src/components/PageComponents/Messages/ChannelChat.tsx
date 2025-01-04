@@ -20,25 +20,55 @@ export interface ChannelChatProps {
 }
 
 function getPastMessages(mess: MessageWithState[], index: number) {
-  if (mess[index].data.includes("$*#%$") === false) {
-    return "not image";
+  let type = 0;
+  if (mess[index].data.includes("@*#%@")) {
+    type = 1;
   }
-  const imgLength = Number.parseInt(mess[index].data.split("$")[3]);
-  const arr = new Array<string>(imgLength);
-  const t = mess[index].data.split("$")[2];
-  if (index - imgLength < -1) {
-    return "incomplete";
+  if (mess[index].data.includes("$*#%$")) {
+    type = 2;
   }
-  for (let i = index; i > index - imgLength; i--) {
-    // biome-ignore lint/style/useTemplate: <explanation>
-    if (mess[i].data.includes("$*#%$" + t)) {
-      arr[Number.parseInt(mess[i].data.split("$")[0])] =
-        mess[i].data.split("$")[4];
-    } else {
-      return "incomplete";
+
+  switch (type) {
+    case 1: {
+      const audioLength = Number.parseInt(mess[index].data.split("@")[3]);
+      const arr = new Array<string>(audioLength);
+      const t = mess[index].data.split("@")[2];
+      if (index - audioLength < -1) {
+        return "aincom";
+      }
+      for (let i = index; i > index - audioLength; i--) {
+        // biome-ignore lint/style/useTemplate: <explanation>
+        if (mess[i].data.includes("@*#%@" + t)) {
+          arr[Number.parseInt(mess[i].data.split("@")[0])] =
+            mess[i].data.split("@")[4];
+        } else {
+          return "aincom";
+        }
+      }
+      return "aaaaa" + arr.join("\n");
     }
+
+    case 2: {
+      const imgLength = Number.parseInt(mess[index].data.split("$")[3]);
+      const arr = new Array<string>(imgLength);
+      const t = mess[index].data.split("$")[2];
+      if (index - imgLength < -1) {
+        return "iincom";
+      }
+      for (let i = index; i > index - imgLength; i--) {
+        // biome-ignore lint/style/useTemplate: <explanation>
+        if (mess[i].data.includes("$*#%$" + t)) {
+          arr[Number.parseInt(mess[i].data.split("$")[0])] =
+            mess[i].data.split("$")[4];
+        } else {
+          return "iincom";
+        }
+      }
+      return "iiiii" + arr.join("\n");
+    }
+    default: { return "text"; }
   }
-  return arr.join("\n");
+
 }
 
 export const ChannelChat = ({
@@ -63,8 +93,8 @@ export const ChannelChat = ({
                     ? false
                     : messages[index - 1].from === message.from
                 }
-                prevMesImgs={getPastMessages(messages, index)}
-                image={message.data.includes("$*#%$")}
+                prevMes={getPastMessages(messages, index)}
+                type={message.data.includes("$*#%$") ? "i" : message.data.includes("@*#%@") ? "a" : "t"}
                 sender={nodes.get(message.from)}
               />
             ))
@@ -102,7 +132,7 @@ export const ChannelChat = ({
         <ImageInput to={to} channel={channel} />
       </div>
       <div className="p-4">
-        <PhotoInput to={to} channel={channel} />
+        <SpeechInput to={to} channel={channel} />
       </div>
     </div>
   );

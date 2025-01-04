@@ -97,6 +97,7 @@ export const ImageInput = ({ to, channel }: ImageInputProps): JSX.Element => {
               await delay(500)
             }
           }
+          setMessageArray([]);
           setFileDraft(Math.random().toString(36));
         }}
       >

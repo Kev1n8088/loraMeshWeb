@@ -1,4 +1,4 @@
-import type { MessageWithState } from "@app/core/stores/deviceStore.ts";
+import type { MessageWithState } from "@app/core/stores/deviceStore.js";
 import { Hashicon } from "@emeraldpay/hashicon-react";
 import type { Protobuf } from "@meshtastic/js";
 import {
@@ -9,20 +9,20 @@ import {
 
 export interface MessageProps {
   lastMsgSameUser: boolean;
-  prevMesImgs: string;
+  prevMes: string;
   message: MessageWithState;
   sender?: Protobuf.Mesh.NodeInfo;
-  image: boolean;
+  type: string;
 }
 
 export const Message = ({
   lastMsgSameUser,
-  prevMesImgs,
+  prevMes,
   message,
   sender,
-  image,
+  type,
 }: MessageProps): JSX.Element => {
-  console.log(prevMesImgs);
+  console.log(prevMes);
   return lastMsgSameUser ? (
     <div className="ml-5 flex">
       {message.state === "ack" ? (
@@ -33,18 +33,22 @@ export const Message = ({
         <AlertCircleIcon size={16} className="my-auto text-textSecondary" />
       )}
       <span
-        className={`ml-4 border-l-2 border-l-backgroundPrimary pl-2 ${
-          message.state === "ack" ? "text-textPrimary" : "text-textSecondary"
-        }`}
+        className={`ml-4 border-l-2 border-l-backgroundPrimary pl-2 ${message.state === "ack" ? "text-textPrimary" : "text-textSecondary"
+          }`}
         style={{ display: "inline-block" }}
       >
-        {prevMesImgs === "not image" ? (
+        {prevMes === "text" ? (
           message.data
-        ) : prevMesImgs === "incomplete" ? (
+        ) : prevMes === "iincom" ? (
           "Image Incomplete"
-        ) : (
-          <img src={prevMesImgs} alt="" />
-        )}
+        ) : prevMes === "aincom" ? (
+          "Audio Incomplete"
+        ) : prevMes.includes("iiiii") ? (
+          <img src={prevMes.slice(5)} alt="" />
+        ) : prevMes.includes("aaaaa") ? (
+          <a href={prevMes.slice(5)}> <u>"Audio Link"</u> </a>
+        ) : null
+        }
       </span>
     </div>
   ) : (
@@ -75,18 +79,22 @@ export const Message = ({
           <AlertCircleIcon size={16} className="my-auto text-textSecondary" />
         )}
         <span
-          className={`ml-4 border-l-2 border-l-backgroundPrimary pl-2 ${
-            message.state === "ack" ? "text-textPrimary" : "text-textSecondary"
-          }`}
+          className={`ml-4 border-l-2 border-l-backgroundPrimary pl-2 ${message.state === "ack" ? "text-textPrimary" : "text-textSecondary"
+            }`}
           style={{ display: "inline-block" }}
         >
-          {prevMesImgs === "not image" ? (
+          {prevMes === "text" ? (
             message.data
-          ) : prevMesImgs === "incomplete" ? (
+          ) : prevMes === "iincom" ? (
             "Image Incomplete"
-          ) : (
-            <img src={prevMesImgs} alt="" />
-          )}
+          ) : prevMes === "aincom" ? (
+            "Audio Incomplete"
+          ) : prevMes.includes("iiiii") ? (
+            <img src={prevMes.slice(5)} alt="" />
+          ) : prevMes.includes("aaaaa") ? (
+            <a href={prevMes.slice(5)}> <u>"Audio Link"</u> </a>
+          ) : null
+          }
         </span>
       </div>
     </div>
