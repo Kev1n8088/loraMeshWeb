@@ -11,16 +11,8 @@
     "dev": "rsbuild dev --open",
     "format": "biome format --write",
     "preview": "rsbuild preview",
-    "package": "gzipper c -i html,js,css,png,ico,svg,webmanifest,txt dist dist/output && tar -cvf dist/build.tar -C ./dist/output/ $(ls ./dist/output/)"
+    "package": "gzipper c -i html,js,css,png,ico,svg,webmanifest,txt dist D:/Devops/loramesh/web/dist/output && tar -cvf D:/Devops/loramesh/web/dist/build.tar -C D:/Devops/loramesh/web/dist/output ."
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/meshtastic/web.git"
-  },
-  "bugs": {
-    "url": "https://github.com/meshtastic/web/issues"
-  },
-  "homepage": "https://meshtastic.org",
   "dependencies": {
     "@bufbuild/protobuf": "^1.10.0",
     "@emeraldpay/hashicon-react": "^0.5.2",
