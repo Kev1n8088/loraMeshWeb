@@ -64,8 +64,8 @@ export const ImageInput = ({ to, channel }: ImageInputProps): JSX.Element => {
         const ctx = canvas.getContext('2d');
 
         // Set the canvas dimensions to the image dimensions
-        const maxWidth = 300; // Set a maximum width for the resized image
-        const maxHeight = 300; // Set a maximum height for the resized image
+        const maxWidth = 150; // Set a maximum width for the resized image
+        const maxHeight = 150; // Set a maximum height for the resized image
         let width = img.width;
         let height = img.height;
 
